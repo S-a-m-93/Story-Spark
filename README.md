@@ -14,8 +14,8 @@ To run this application locally, follow these steps:
 
 1. **Clone the repository**:
     ```bash
-    git clone https://github.com/yourusername/story-idea-spark.git
-    cd story-idea-spark
+    git clone https://github.com/S-a-m-93/Story-Spark.git
+    cd Story-Spark
     ```
 
 2. **Create and activate a virtual environment** (optional but recommended):
