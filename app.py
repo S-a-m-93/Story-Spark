@@ -17,16 +17,16 @@ def get_idea_response(concept, character, setting, genre):
     Returns:
         String containing a list of generated story ideas.
     """
+    try:
+        # LLama 2 model
+        llm = CTransformers(
+            model="llama-2-7b-chat.ggmlv3.q8_0.bin",
+            model_type="llama",
+            config={"max_new_tokens": 256, "temperature": 0.7},
+        )
 
-    # LLama 2 model
-    llm = CTransformers(
-        model="llama-2-7b-chat.ggmlv3.q8_0.bin",
-        model_type="llama",
-        config={"max_new_tokens": 256, "temperature": 0.7},
-    )
-
-    # Prompt Template
-    template = """
+        # Prompt Template
+        template = """
       Generate 2 interesting story ideas that combine the following elements in less than 200 words:
         * Concept: {concept}
         * Character: {character}
@@ -34,17 +34,22 @@ def get_idea_response(concept, character, setting, genre):
         * Genre: {genre}
   """
 
-    prompt = PromptTemplate(
-        input_variables=["concept", "character", "setting", "genre"], template=template
-    )
-
-    # Generates response from LLama 2 model
-    response = llm(
-        prompt.format(
-            concept=concept, character=character, setting=setting, genre=genre
+        prompt = PromptTemplate(
+            input_variables=["concept", "character", "setting", "genre"],
+            template=template,
         )
-    )
-    return response
+
+        # Generates response from LLama 2 model
+        response = llm(
+            prompt.format(
+                concept=concept, character=character, setting=setting, genre=genre
+            )
+        )
+        return response
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        st.error("An error occurred while generating ideas. Please try again later.")
+        return None
 
 
 st.set_page_config(
